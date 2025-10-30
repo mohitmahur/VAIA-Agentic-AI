@@ -107,7 +107,7 @@ class MarketAnalystAgent:
         template = """You are a market research analyst AI.
         Use the provided context to answer questions. 
         If the context doesn’t have enough info, use your general knowledge.
-        
+
         Context:
         {context}
 
@@ -124,7 +124,8 @@ class MarketAnalystAgent:
         )
 
         answer = rag_chain.invoke(question)
-        self.console.print(f"[bold green]Answer:[/bold green] {answer}")
+        return answer
+        # self.console.print(f"[bold green]Answer:[/bold green] {answer}")
 
     # ===============================================================
     # STEP 5️⃣: Summarization
@@ -132,7 +133,7 @@ class MarketAnalystAgent:
     def get_market_research_findings(self):
         """Summarizes the document's main findings."""
         summary_question = "Summarize key market research findings: market size, growth, competition, and strategy."
-        self.perform_general_qa(summary_question)
+        return self.perform_general_qa(summary_question)
 
     # ===============================================================
     # STEP 6️⃣: Structured Data Extraction
@@ -172,8 +173,9 @@ class MarketAnalystAgent:
         )
 
         extracted_data = extraction_chain.invoke({"text": doc_text})
-        self.console.print("[bold green]Extracted Data:[/bold green]")
-        self.console.print(extracted_data)
+        return extracted_data
+        # self.console.print("[bold green]Extracted Data:[/bold green]")
+        # self.console.print(extracted_data)
 
 
 # ===============================================================
