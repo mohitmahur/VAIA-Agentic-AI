@@ -32,8 +32,8 @@ VIAI/
 
 ### Step 1-  Clone the Repository
 ```bash
-git clone https://github.com/mohitmahur/VAIA-Agentic-AI
-cd VIAI
+git clone https://github.com/mohitmahur/VAIA-Agentic-AI.git
+cd VAIA-Agentic-AI
 ```
 
 
