@@ -180,7 +180,7 @@ print(route)
 
 
 ---
-## License
+License
 This project is for **educational and research** use only.  
 All rights reserved © 2025.
 ---
