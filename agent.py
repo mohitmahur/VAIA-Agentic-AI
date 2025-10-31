@@ -1,4 +1,5 @@
 import os
+import requests
 from dotenv import load_dotenv
 from typing import List, Optional, Literal
 from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
@@ -10,12 +11,17 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from pydantic import BaseModel, Field
 from rich.console import Console
+from langchain_core.documents import Document
 
 
+# .................................API Setup.................................................
 def setup_environment():
     load_dotenv()
     if not os.getenv("GOOGLE_API_KEY"):
         raise ValueError("GOOGLE_API_KEY not found in .env file. Please add it.")
+
+
+# ....................................Main AI Market Analyst..................................
 
 
 class MarketAnalystAgent:
@@ -32,20 +38,68 @@ class MarketAnalystAgent:
         loader = TextLoader(document_path)
         docs = loader.load()
 
-        text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=1000, chunk_overlap=200
-        )
-        splits = text_splitter.split_documents(docs)
+        external_file = os.path.join("data", "external_trends_2025.txt")
+        if os.path.exists(external_file):
+            self.console.print(
+                "[bold yellow]Loading external trends file...[/bold yellow]"
+            )
+            try:
+                loader_ext = TextLoader(external_file)
+                docs += loader_ext.load()
+            except Exception as e:
+                self.console.log(f"[red]Failed to load external file: {e}[/red]")
 
+        doc_length = sum(len(d.page_content) for d in docs)
+        if doc_length > 150000:
+            chunk_size, chunk_overlap = 1200, 200
+        elif doc_length > 50000:
+            chunk_size, chunk_overlap = 900, 150
+        else:
+            chunk_size, chunk_overlap = 600, 100
+
+        text_splitter = RecursiveCharacterTextSplitter(
+            chunk_size=chunk_size,
+            chunk_overlap=chunk_overlap,
+            length_function=len,
+            separators=["\n\n", "\n", ".", " ", ""],
+        )
+
+        splits = text_splitter.split_documents(docs)
+        self.console.print(
+            "[bold cyan]Building FAISS vector store with combined data...[/bold cyan]"
+        )
         vectorstore = FAISS.from_documents(
             documents=splits,
             embedding=GoogleGenerativeAIEmbeddings(model="models/text-embedding-004"),
         )
-
         self.retriever = vectorstore.as_retriever()
 
-    def route_query(self, query: str):
+    # .............................................
+    def query(self, question: str):
+        try:
+            docs = self.retriever.get_relevant_documents(question)
+            context = "\n\n".join([d.page_content for d in docs[:3]])
 
+            prompt = f"""
+            You are a market analysis AI. Based on the retrieved context below,
+            answer the question clearly and analytically like a financial analyst.
+
+            Context:
+            {context}
+
+            Question:
+            {question}
+            """
+
+            response = self.llm.invoke(prompt)
+            return response.content.strip()
+
+        except Exception as e:
+            self.console.log(f"[red]Error in query processing: {e}[/red]")
+            return "Sorry, I encountered an error while processing your request."
+
+    # ...................................................Best Route Tools ..................
+    def route_query(self, query: str):
         class RouteQuery(BaseModel):
             tool_name: Literal["qa", "summarize", "extract"] = Field(
                 ...,
@@ -71,6 +125,7 @@ class MarketAnalystAgent:
         routing_chain = prompt | self.llm.with_structured_output(schema=RouteQuery)
         return routing_chain.invoke({"query": query})
 
+    # ...................................Q&A ..........................................
     def perform_general_qa(self, question: str):
         self.console.print(f"\n[bold cyan]Question:[/bold cyan] {question}")
 
@@ -96,10 +151,12 @@ class MarketAnalystAgent:
         answer = rag_chain.invoke(question)
         return answer
 
+    # .............................Market Research.........................................
     def get_market_research_findings(self):
         summary_question = "Summarize key market research findings: market size, growth, competition, and strategy in bullet points."
         return self.perform_general_qa(summary_question)
 
+    # ......................................Structured Data..............................
     def extract_structured_data(self):
         self.console.print(
             "\n[bold cyan]Task:[/bold cyan] Extracting structured competitor data..."
