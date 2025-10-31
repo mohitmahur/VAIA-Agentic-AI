@@ -70,27 +70,24 @@ The app will open automatically in your browser.
 | **Embedding Model**                        | `text-embedding-004` (Google Generative AI)                      | Outperforms OpenAI `text-embedding-3-small` in multilingual and factual domains; 90%+ correlation with Gemini reasoning |
 | **Vector DB**                              | FAISS                                                            | Local, fast, memory-efficient; better for research/intern-level prototypes than Pinecone or Qdrant which require setup  |
 | **LLM**                                    | `gemini-2.5-flash`                                               | Better reasoning speed than Claude 3 Haiku / GPT-4o-mini; ideal for document retrieval tasks; cheaper + fast response   |
-| **Adaptivity**                             | Auto-tunes chunk size based on doc length                        | Shows engineering depth: system scales automatically                                                                    |
-| **Practicality**                           | Print logs via Rich Console                                      | Helpful for debugging & recruiter evaluation; makes your system transparent                                             |
+| **Adaptivity**                             | Auto-tunes chunk size based on doc length                        | system scales automatically                                                                    |
+| **Practicality**                           | Print logs via Rich Console                                      | Helpful for debugging & recruiter evaluation; makes system transparent                                             |
 
 
 
-### 1. **Chunking Strategy
+| **Model**                      | **Speed**    | **Context Handling** | **Cost-Efficiency** | **Reasoning Coherence** | **Suitability**             |
+| ------------------------------ | ------------ | -------------------- | ------------------- | ----------------------- | --------------------------- |
+| **Gemini-2.5-Flash**           | Fast       | Excellent          | Very Low         | Strong                | Real-time doc QA            |
+| **GPT-4o-mini (OpenAI)**       | Fast       | Strong             | Moderate         | Excellent             | General-purpose             |
+| **Claude 3 Haiku (Anthropic)** | Very Fast | Limited           | Low              | Simplistic responses | Short summaries             |
+| **Mistral Large**              | Slower    | High               | High             | Good logic            | Large-scale reports         |
+| **Llama 3.1 (Meta)**           | Moderate  | oken limits      | Free (open)      | Weak coherence       | Offline / open source setup |
 
-Chunk Size: 1000 characters
 
-Overlap: 200 characters
-This provides optimal context retention for Gemini while avoiding context window overflow. It ensures that important cross-paragraph connections are not lost during retrieval.
+Conclusion:
+Gemini-2.5-Flash + text-embedding-004 + Adaptive Recursive Chunking gives the highest trade-off score among all —
+balancing speed, context precision, semantic accuracy, and compute cost — ideal for real-world document reasoning agents.
 
-### 2. **Embedding Model
-
-Model Used: models/text-embedding-004
-Chosen for its semantic precision and speed, making it suitable for retrieval-augmented generation (RAG) workflows involving textual data from market reports.
-
-### 3. **Vector Database
-
-Database: FAISS
-FAISS provides fast in-memory similarity search with low latency — ideal for local, lightweight document retrieval setups. It integrates seamlessly with LangChain and doesn’t require external servers.
 
 ### 4. **Data Extraction Prompt
 
