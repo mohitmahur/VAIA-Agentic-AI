@@ -62,9 +62,10 @@ streamlit run app.py
 The app will open automatically in your browser.
 
 ---
-##  Design Decisions (Crucial)
+# Design Decisions (Crucial)
 
-# Chunking Strategy : ----
+## Chunking Strategy : --->
+
 
 | **Design Aspect**                          | **Chosen Approach**                                              | **Why It’s Better (vs Alternatives)**                                                                                   |
 | ------------------------------------------ | ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
@@ -74,37 +75,33 @@ The app will open automatically in your browser.
 | **Vector DB**                              | FAISS                                                            | Local, fast, memory-efficient; better for research/intern-level prototypes than Pinecone or Qdrant which require setup  |
 | **LLM**                                    | `gemini-2.5-flash`                                               | Better reasoning speed than Claude 3 Haiku / GPT-4o-mini; ideal for document retrieval tasks; cheaper + fast response   |
 | **Adaptivity**                             | Auto-tunes chunk size based on doc length                        | system scales automatically                                                                    |
-| **Practicality**                           | Print logs via Rich Console                                      | Helpful for debugging & recruiter evaluation; makes system transparent                                             |
 
-I implemented an adaptive recursive chunking strategy to make the document splitting more efficient and context-aware.
-The chunk size automatically changes based on the total length of the document :-
-*For large reports (above 150k characters): chunk_size = 1200, overlap = 200*
-*For medium documents (50k–150k characters): chunk_size = 900, overlap = 150*
-*For shorter files: chunk_size = 600, overlap = 100*
+1. I implemented an adaptive recursive chunking strategy to make the document splitting more efficient and context-aware.
+    The chunk size automatically changes based on the total length of the document :-
+    *For large reports (above 150k characters): chunk_size = 1200, overlap = 200*
+    *For medium documents (50k–150k characters): chunk_size = 900, overlap = 150*
+    *For shorter files: chunk_size = 600, overlap = 100*
 
-This setup helps balance between context preservation and processing efficiency.
-Larger files get bigger chunks to reduce computation time, while smaller documents use finer-grained chunks to capture more detail.
+2. This setup helps balance between context preservation and processing efficiency.
+   Larger files get bigger chunks to reduce computation time, while smaller documents use finer-grained chunks to capture more detail.
 
-I also used the RecursiveCharacterTextSplitter with the following split hierarchy:
-*["\n\n", "\n", ".", " ", ""]* - meaning it first tries to split by paragraphs, then sentences, and only then by spaces.
-This prevents the model from losing meaning mid-sentence and keeps each chunk semantically coherent.
+3. I also used the RecursiveCharacterTextSplitter with the following split hierarchy:--
+   *["\n\n", "\n", ".", " ", ""]* - meaning it first tries to split by paragraphs, then sentences, and only then by spaces.
+   This prevents the model from losing meaning mid-sentence and keeps each chunk semantically coherent.
 
-During testing, this adaptive approach gave noticeably better retrieval consistency compared to a fixed-size method.
-It’s also flexible enough to handle different document types (like PDFs, research articles, or short briefs) without manual retuning.
+4. During testing, this adaptive approach gave noticeably better retrieval consistency compared to a fixed-size method.
+   It’s also flexible enough to handle different document types (like PDFs, research articles, or short briefs) without manual retuning.
 
 
-# Embedding Model:----
+## Embedding Model: --->
 
-I used Google’s *text-embedding-004* model for generating the text embeddings.
-This model converts each document chunk into dense vector representations that capture the meaning and context of the text, which is essential for semantic search and retrieval.
-One of the main reasons I chose this model is that I already have some experience working with Gemini models in my previous projects.
-Since this embedding model is part of the same ecosystem, it aligns naturally with the way Gemini represents and understands text.
-That compatibility helps improve retrieval consistency — the embeddings and the LLM “speak the same language,” which leads to more accurate and grounded answers.
+**For embeddings I used Google’s text-embedding-004 model.**
 
-I also compared it with other common options like OpenAI’s text-embedding-3-small and Cohere’s embed-english-v3, but I found Google’s text-embedding-004 to be more stable for mixed-domain data (especially when documents included both technical and business terms).
-It also performs well on multilingual text, which makes it flexible for future scalability.
-Another practical reason is that this model is fast, cost-effective, and well-integrated with FAISS — meaning I can generate embeddings locally without complex setup or external dependencies.
-That made it a good fit for an internship-level project where both speed and reliability matter.
+1. I chose this because I already had experience with the Gemini ecosystem, so using an embedding model from the same ecosystem helped with integration and consistency.
+2. I also compared alternatives (e.g., OpenAI’s text-embedding-3-small) and in my tests the text-embedding-004 produced more reliable top-3 retrieval matches for my mixed technical and business content.
+3. Benchmarks show that embedding model accuracy and cost don’t always correlate — for example, AIMultiple found some expensive models under-performed and that model selection + chunking matter. [AIMultiple Report](https://research.aimultiple.com/embedding-models/)
+4. This embedding model integrates smoothly with FAISS and supports my retrieval pipeline without added infrastructure overhead, making iteration faster and more efficient.
+(Note: I evaluated multiple chunking and embedding approaches; the final configuration balances performance, cost, and ecosystem compatibility based on 2025 benchmark findings.)
 
 
 | **Model**                      | **Speed**    | **Context Handling** | **Cost-Efficiency** | **Reasoning Coherence** | **Suitability**             |
