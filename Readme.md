@@ -104,6 +104,19 @@ The app will open automatically in your browser.
 (Note: I evaluated multiple chunking and embedding approaches; the final configuration balances performance, cost, and ecosystem compatibility based on 2025 benchmark findings.)
 
 
+## Vector Database: --->
+
+**For vector storage and retrieval, I used FAISS (Facebook AI Similarity Search).**
+
+1. I chose this because FAISS provides high-performance similarity search with minimal setup and excellent CPU/GPU optimization.
+2. It is efficient for medium-scale RAG pipelines, offering low-latency searches directly in memory without external dependencies.
+3. I compared it with other leading open-source databases — Milvus, Qdrant, Weaviate, and Chroma — as discussed in [Medium Article](https://medium.com/@fendylike/top-5-open-source-vector-search-engines-a-comprehensive-comparison-guide-for-2025-e10110b47aa3)
+4. While those systems excel in distributed scalability, metadata filtering, and multi-node indexing, they require additional infrastructure and orchestration.
+5. FAISS offered the right balance of speed, simplicity, and control, allowing smooth integration with my embedding pipeline.
+   Its local-first design keeps retrieval latency low while maintaining flexibility to migrate to Qdrant or Milvus in a production-scale environment if needed.
+*(Note: The selection aligns with 2025 benchmark comparisons, prioritizing efficient in-memory search over distributed overhead for mid-sized datasets.)*
+
+
 | **Model**                      | **Speed**    | **Context Handling** | **Cost-Efficiency** | **Reasoning Coherence** | **Suitability**             |
 | ------------------------------ | ------------ | -------------------- | ------------------- | ----------------------- | --------------------------- |
 | **Gemini-2.5-Flash**           | Fast       | Excellent          | Very Low         | Strong                | Real-time doc QA            |
