@@ -117,6 +117,17 @@ The app will open automatically in your browser.
 *(Note: The selection aligns with 2025 benchmark comparisons, prioritizing efficient in-memory search over distributed overhead for mid-sized datasets.)*
 
 
+## Data Extraction Prompt: --->
+
+**For extracting competitor data**
+1. I designed a prompt that ensures the output is always structured and reliable.
+2. I used *Pydantic models (**Competitor**, **CompetitorAnalysis**)* to define a clear schema so the LLM’s response always follows a fixed format.
+3. Then I used *LangChain’s [with_structured_output()]* instead of normal text parsing because it directly returns validated JSON - this avoids issues like inconsistent     formatting or missing fields.
+4. To guide the model, I created a *[ChatPromptTemplate]* with clear system and human instructions, making the extraction both accurate and consistent.
+*This setup gives me clean, ready-to-use structured data without needing extra post-processing.*
+
+
+
 | **Model**                      | **Speed**    | **Context Handling** | **Cost-Efficiency** | **Reasoning Coherence** | **Suitability**             |
 | ------------------------------ | ------------ | -------------------- | ------------------- | ----------------------- | --------------------------- |
 | **Gemini-2.5-Flash**           | Fast       | Excellent          | Very Low         | Strong                | Real-time doc QA            |
