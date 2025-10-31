@@ -187,31 +187,31 @@ print(route)
 
 ##  Core Features
 
--  **AI Market Analyst:** Uses Gemini (Google Generative AI) to deliver accurate market insights and summaries.
--  **Smart Text Chunking:** Dynamically splits documents for efficient vector search with FAISS.  
--  **Interactive Q&A:** Ask questions directly in the Streamlit app and get context-aware answers.  
--  **Auto Tool Routing:** Detects whether to perform Q&A, summarization, or structured data extraction.  
--  **Structured Output:** Extracts clean JSON data like competitor names and market shares using Pydantic schemas.  
--  **Streamlit Interface:** Simple, responsive, and easy-to-use UI for real-time analysis.
+-  *AI Market Analyst:-* Uses Gemini (Google Generative AI) to deliver accurate market insights and summaries.
+-  *Smart Text Chunking:-* Dynamically splits documents for efficient vector search with FAISS.  
+-  *Interactive Q&A:-* Ask questions directly in the Streamlit app and get context-aware answers.  
+-  *Auto Tool Routing:-* Detects whether to perform Q&A, summarization, or structured data extraction.  
+-  *Structured Output:-* Extracts clean JSON data like competitor names and market shares using Pydantic schemas.  
+-  *Streamlit Interface:-* Simple, responsive, and easy-to-use UI for real-time analysis.
 ---
 
 
 ##  Tech Stack
 
-- **Frontend/UI:** Streamlit  
-- **LLM:** Google Gemini (via `langchain_google_genai`)  
-- **Embeddings:** GoogleGenerativeAIEmbeddings (`models/text-embedding-004`)  
-- **Vector Store:** FAISS  
-- **Text Processing:** LangChain + RecursiveCharacterTextSplitter  
-- **Data Models:** Pydantic  
-- **Environment Management:** python-dotenv  
-- **Console Logging:** Rich
+- *Frontend/UI:-* Streamlit  
+- *LLM:* Google Gemini (via `langchain_google_genai`)  
+- *Embeddings:-* GoogleGenerativeAIEmbeddings (`models/text-embedding-004`)  
+- *Vector Store:-* FAISS  
+- *Text Processing:-* LangChain + RecursiveCharacterTextSplitter  
+- *Data Models:-* Pydantic  
+- *Environment Management:-* python-dotenv  
+- *Console Logging:-* Rich
 
 
----
+
 License
 This project is for **educational and research** use only.  
 All rights reserved © 2025.
----
+
 **Author:** Mohit Mahur 
 
