@@ -127,56 +127,28 @@ The app will open automatically in your browser.
 *This setup gives me clean, ready-to-use structured data without needing extra post-processing.*
 
 
+## API Usages: --->
 
-| **Model**                      | **Speed**    | **Context Handling** | **Cost-Efficiency** | **Reasoning Coherence** | **Suitability**             |
-| ------------------------------ | ------------ | -------------------- | ------------------- | ----------------------- | --------------------------- |
-| **Gemini-2.5-Flash**           | Fast       | Excellent          | Very Low         | Strong                | Real-time doc QA            |
-| **GPT-4o-mini (OpenAI)**       | Fast       | Strong             | Moderate         | Excellent             | General-purpose             |
-| **Claude 3 Haiku (Anthropic)** | Very Fast | Limited           | Low              | Simplistic responses | Short summaries             |
-| **Mistral Large**              | Slower    | High               | High             | Good logic            | Large-scale reports         |
-| **Llama 3.1 (Meta)**           | Moderate  | oken limits      | Free (open)      | Weak coherence       | Offline / open source setup |
-
-
-Conclusion:
-Gemini-2.5-Flash + text-embedding-004 + Adaptive Recursive Chunking gives the highest trade-off score among all —
-balancing speed, context precision, semantic accuracy, and compute cost — ideal for real-world document reasoning agents.
-
-
-### 4. **Data Extraction Prompt
-
-The extraction prompt uses strict Pydantic schema enforcement to ensure well-structured JSON outputs.
-By defining CompetitorAnalysis and Competitor models, Gemini is guided to adhere exactly to schema constraints, reducing hallucination and formatting errors.
-
-
-### **API Usage (Gemini Models)
-
-LLM Model: gemini-2.5-flash
-
-Embedding Model: models/text-embedding-004
-These are part of the Google Generative AI suite, accessed via LangChain’s ChatGoogleGenerativeAI and GoogleGenerativeAIEmbeddings.
-
-### 5. **API Usage Examples**
-
-#### 🔹 General Q&A
+####  General Q&A
 ```python
 response = agent.perform_general_qa("What are the top competitors in the Q3 report?")
 ")
 print(response)
 ```
 
-#### 🔹 Summarization
+####  Summarization
 ```python
 summary = agent.get_market_research_findings()
 print(summary)
 ```
 
-#### 🔹 Structured Data Extraction
+####  Structured Data Extraction
 ```python
 data = agent.extract_structured_data()
 print(data.dict())
 ```
 
-#### 🔹 Auto Routing
+####  Auto Routing
 ```python
 route = agent.route_query("Summarize the competitor section").tool_name
 print(route)
@@ -184,41 +156,33 @@ print(route)
 
 ---
 
-## Core Features
+##  Core Features
 
-- **Auto Tool Routing** based on natural language intent detection  
-- **Market Q&A** using contextual embeddings  
-- **Comprehensive Summarization** of full documents  
-- **Structured JSON Data Extraction** for downstream analytics  
-- **Professional Streamlit Interface** with animated modern UI elements  
-
----
-
-## Tech Stack
-
-### Core Tech Stack
-
-#### LLM: Google Gemini 2.5 Flash
-#### Embeddings: Google Text Embedding 004
-#### Frameworks: LangChain, FAISS, Streamlit
-#### Language: Python 3.10+
-
-
-### **Features
-
-## Automated query routing (QA / Summarize / Extract)
-## Context-aware document retrieval via FAISS
-## Gemini-powered structured output generation
-## Professional Streamlit UI for business analysts
+-  **AI Market Analyst:** Uses Gemini (Google Generative AI) to deliver accurate market insights and summaries.
+-  **Smart Text Chunking:** Dynamically splits documents for efficient vector search with FAISS.  
+-  **Interactive Q&A:** Ask questions directly in the Streamlit app and get context-aware answers.  
+-  **Auto Tool Routing:** Detects whether to perform Q&A, summarization, or structured data extraction.  
+-  **Structured Output:** Extracts clean JSON data like competitor names and market shares using Pydantic schemas.  
+-  **Streamlit Interface:** Simple, responsive, and easy-to-use UI for real-time analysis.
 ---
 
 
+##  Tech Stack
+
+- **Frontend/UI:** Streamlit  
+- **LLM:** Google Gemini (via `langchain_google_genai`)  
+- **Embeddings:** GoogleGenerativeAIEmbeddings (`models/text-embedding-004`)  
+- **Vector Store:** FAISS  
+- **Text Processing:** LangChain + RecursiveCharacterTextSplitter  
+- **Data Models:** Pydantic  
+- **Environment Management:** python-dotenv  
+- **Console Logging:** Rich
+
+
+---
 ## License
-
 This project is for **educational and research** use only.  
 All rights reserved © 2025.
-
 ---
-
 **Author:** Mohit Mahur 
 
