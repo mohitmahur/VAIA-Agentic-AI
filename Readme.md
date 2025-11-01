@@ -16,14 +16,16 @@ VIAI/
 │
 ├── data/
 │   ├── innovate_q3_2025.txt      # Market research data file
-│   ├── external_trends_2025.txt  # external trend market data
+    │   ├── external_trends_2025.txt  # external trend market data
 │                   
 │
 ├── .env                          # Contains GOOGLE_API_KEY
 ├── agent.py                      # Core AI agent logic (LangChain + Gemini)
 ├── app.py                        # Streamlit frontend app
+├── case study pdf                # pdf of case study
 └── Readme.md                     # Project documentation
 ├── requirements.txt              # Python dependencies 
+├── short video about code        # walkthrough explaining approach 
                 
 ```
 
