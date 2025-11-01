@@ -155,6 +155,7 @@ Output:
 summary = agent.get_market_research_findings()
 print(summary)
 # Example : Market Research Findings
+> Summarize the key insights from the market report
 Output:
 - Global market: $15B, projected 22% CAGR to 2030  
 - Key drivers: efficiency & cost reduction  
@@ -167,6 +168,7 @@ Output:
 data = agent.extract_structured_data()
 print(data.dict())
 # Example 3: Structured Data Extraction
+> List strategies mentioned for market expansion.
 Output:
 {
   "competitors": [
