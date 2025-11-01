@@ -16,6 +16,7 @@ VIAI/
 │
 ├── data/
 │   ├── innovate_q3_2025.txt      # Market research data file
+│   ├── external_trends_2025.txt  # external trend market data
 │                   
 │
 ├── .env                          # Contains GOOGLE_API_KEY
@@ -141,8 +142,8 @@ The app will open automatically in your browser.
 ####  General Q&A
 ```python
 response = agent.perform_general_qa("What are the top competitors in the Q3 report?")
-")
 print(response)
+Alternatively, in the Streamlit app, type:-
 # Example : General Q&A
 > What is Innovate Inc.'s market share?
 Output:
@@ -154,6 +155,7 @@ Output:
 ```python
 summary = agent.get_market_research_findings()
 print(summary)
+In Streamlit, type
 # Example : Market Research Findings
 > Summarize the key insights from the market report
 Output:
@@ -166,6 +168,7 @@ Output:
 ####  Structured Data Extraction
 ```python
 data = agent.extract_structured_data()
+In Streamlit, type
 print(data.dict())
 # Example 3: Structured Data Extraction
 > List strategies mentioned for market expansion.
@@ -201,30 +204,29 @@ Output:
 
 ##  Core Features
 
--  *AI Market Analyst:-* Uses Gemini (Google Generative AI) to deliver accurate market insights and summaries.
--  *Smart Text Chunking:-* Dynamically splits documents for efficient vector search with FAISS.  
+-  *AI Market Analyst:--* Uses Gemini (Google Generative AI) to deliver accurate market insights and summaries.
+-  *Smart Text Chunking:--* Dynamically splits documents for efficient vector search with FAISS.  
 -  *Interactive Q&A:-* Ask questions directly in the Streamlit app and get context-aware answers.  
--  *Auto Tool Routing:-* Detects whether to perform Q&A, summarization, or structured data extraction.  
--  *Structured Output:-* Extracts clean JSON data like competitor names and market shares using Pydantic schemas.  
--  *Streamlit Interface:-* Simple, responsive, and easy-to-use UI for real-time analysis.
+-  *Auto Tool Routing:--* Detects whether to perform Q&A, summarization, or structured data extraction.  
+-  *Structured Output:--* Extracts clean JSON data like competitor names and market shares using Pydantic schemas.  
+-  *Streamlit Interface:--* Simple, responsive, and easy-to-use UI for real-time analysis.
 ---
 
 
 ##  Tech Stack
 
-- *Frontend/UI:-* Streamlit  
-- *LLM:* Google Gemini (via `langchain_google_genai`)  
-- *Embeddings:-* GoogleGenerativeAIEmbeddings (`models/text-embedding-004`)  
-- *Vector Store:-* FAISS  
-- *Text Processing:-* LangChain + RecursiveCharacterTextSplitter  
-- *Data Models:-* Pydantic  
-- *Environment Management:-* python-dotenv  
-- *Console Logging:-* Rich
+- *Frontend/UI:--* Streamlit  
+- *LLM:-* Google Gemini (via `langchain_google_genai`)  
+- *Embeddings:--* GoogleGenerativeAIEmbeddings (`models/text-embedding-004`)  
+- *Vector Store:--* FAISS  
+- *Text Processing:--* LangChain + RecursiveCharacterTextSplitter  
+- *Data Models:--* Pydantic  
+- *Environment Management:--* python-dotenv  
+- *Console Logging:--* Rich
 
 
 
-License
-
+License -
 This project is for **educational and research** use only.  
 All rights reserved © 2025.
 
