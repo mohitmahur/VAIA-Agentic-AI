@@ -25,7 +25,6 @@ VIAI/
 ├── case study pdf                # pdf of case study
 └── Readme.md                     # Project documentation
 ├── requirements.txt              # Python dependencies 
-├── short video about code        # walkthrough explaining approach 
                 
 ```
 
